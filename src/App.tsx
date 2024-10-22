@@ -3,12 +3,13 @@ import { generateClient } from "aws-amplify/data";
 import { useEffect, useState } from "react";
 import type { Schema } from "../amplify/data/resource";
 
-
 const client = generateClient<Schema>();
+
 
 function App() {
   const { signOut } = useAuthenticator();
   const [todos, setTodos] = useState<Array<Schema["Todo"]["type"]>>([]);
+
 
   useEffect(() => {
     client.models.Todo.observeQuery().subscribe({
