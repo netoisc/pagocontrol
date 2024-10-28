@@ -8,6 +8,10 @@ import outputs from "../amplify_outputs.json";
 import App from "./App.tsx";
 import "./index.css";
 
+
+
+Amplify.configure(outputs);
+
 I18n.putVocabularies(translations);
 I18n.setLanguage("es");
 I18n.putVocabularies({
@@ -22,7 +26,6 @@ I18n.putVocabularies({
   },
 });
 
-Amplify.configure(outputs);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>

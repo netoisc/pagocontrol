@@ -7,11 +7,47 @@ specifies that any user authenticated via an API key can "create", "read",
 "update", and "delete" any "Todo" records.
 =========================================================================*/
 const schema = a.schema({
-  Todo: a
+  PaymentFrequency: a.enum(['ANNUALLY','MONTHLY', 'WEEKLY']),
+
+  PaymentConcept: a
     .model({
-      content: a.string(),
+      name: a.string().required(),
+      amount: a.float().required(),
+      frequency: a.ref('PaymentFrequency'),
+      startDate: a.date().required(),
+      toleranceDays: a.integer(),
+      organizationId: a.id(),
+      organization: a.belongsTo('Organization', 'organizationId')
     })
-    .authorization((allow) => [allow.publicApiKey()]),
+  .authorization((allow)=> [allow.owner()]),
+  OrganizationPeople: a
+    .model({
+      organizationId: a.id().required(),
+      personId: a.id().required(),
+      organization: a.belongsTo('Organization', 'organizationId'),
+      person: a.belongsTo('Person', 'personId'),
+      createdAt: a.datetime(),
+  })
+  .authorization((allow)=> [allow.authenticated()]),
+  Organization: a
+    .model({
+      name: a.string().required(),
+      address: a.string().required(),
+      concepts: a.hasMany('PaymentConcept', 'organizationId'),
+      persons: a.hasMany('OrganizationPeople', 'organizationId'),
+      type: a.enum(['COMPANY', 'SCHOOL', 'OTHER']),
+    })
+    .authorization((allow)=> [allow.owner()]),
+  Person: a
+    .model({
+      fullname: a.string().required(),
+      payDay: a.integer(),
+      email: a.email(),
+      phoneNumber: a.phone(),
+      active: a.boolean().default(true),
+      organizations: a.hasMany('OrganizationPeople', 'personId')
+    })
+    .authorization((allow)=> [allow.owner()]),
 });
 
 export type Schema = ClientSchema<typeof schema>;
@@ -19,11 +55,7 @@ export type Schema = ClientSchema<typeof schema>;
 export const data = defineData({
   schema,
   authorizationModes: {
-    defaultAuthorizationMode: "apiKey",
-    // API Key is used for a.allow.public() rules
-    apiKeyAuthorizationMode: {
-      expiresInDays: 30,
-    },
+    defaultAuthorizationMode: "userPool",
   },
 });
 
@@ -32,7 +64,7 @@ Go to your frontend source code. From your client-side code, generate a
 Data client to make CRUDL requests to your table. (THIS SNIPPET WILL ONLY
 WORK IN THE FRONTEND CODE FILE.)
 
-Using JavaScript or Next.js React Server Components, Middleware, Server 
+Using JavaScript or Next.js React Server Components, Middleware, Server
 Actions or Pages Router? Review how to generate Data clients for those use
 cases: https://docs.amplify.aws/gen2/build-a-backend/data/connect-to-API/
 =========================================================================*/

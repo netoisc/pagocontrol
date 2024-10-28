@@ -7,36 +7,29 @@ const client = generateClient<Schema>();
 
 
 function App() {
-  const { signOut } = useAuthenticator();
-  const [todos, setTodos] = useState<Array<Schema["Todo"]["type"]>>([]);
-
+  const { signOut, user} = useAuthenticator();
+  const [organizations, setOrganizations] = useState<Array<Schema["Organization"]["type"]>>([]);
 
   useEffect(() => {
-    client.models.Todo.observeQuery().subscribe({
-      next: (data) => setTodos([...data.items]),
+    client.models.Organization.observeQuery().subscribe({
+      next: (data) => setOrganizations([...data.items]),
     });
   }, []);
 
-  function createTodo() {
-    client.models.Todo.create({ content: window.prompt("Todo content") });
-  }
-
   return (
     <main>
-      <h1>My todos</h1>
-      <button onClick={createTodo}>+ new</button>
+      <h1>Control de pagos</h1>
+      <div>
+      <h1>Bienvenido {user?.username}</h1>
       <ul>
-        {todos.map((todo) => (
-          <li key={todo.id}>{todo.content}</li>
+        {organizations.map((org) => (
+          <li key={org.id}>{org.name}</li>
         ))}
       </ul>
-      <div>
-        🥳 App successfully hosted. Try creating a new todo.
-        <br />
-        <a href="https://docs.amplify.aws/react/start/quickstart/#make-frontend-updates">
-          Review next step of this tutorial.
-        </a>
       </div>
+      <div>
+      </div>
+
       <button onClick={signOut}>Sign out</button>
     </main>
   );
