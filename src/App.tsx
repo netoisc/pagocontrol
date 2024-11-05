@@ -1,38 +1,42 @@
-import { useAuthenticator } from '@aws-amplify/ui-react';
-import { generateClient } from "aws-amplify/data";
-import { useEffect, useState } from "react";
-import type { Schema } from "../amplify/data/resource";
 
-const client = generateClient<Schema>();
 
+import { Authenticator } from '@aws-amplify/ui-react';
+import { createBrowserRouter, Route, RouterProvider, Routes } from 'react-router-dom';
+import "./App.css";
+import Home from './pages/Home';
+import Layout from './pages/Layout';
+
+
+
+const AdminRoutes =() => (
+  <Authenticator>
+    <Routes>
+      <Route path="/create-organization"></Route>
+    </Routes>
+  </Authenticator>
+)
+
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Layout />,
+    children: [
+      {
+        index: true,
+        element: <Home />,
+      },
+      {
+        path: "/admin/*",
+        element: <AdminRoutes />,
+      }
+    ]
+
+  }
+])
 
 function App() {
-  const { signOut, user} = useAuthenticator();
-  const [organizations, setOrganizations] = useState<Array<Schema["Organization"]["type"]>>([]);
-
-  useEffect(() => {
-    client.models.Organization.observeQuery().subscribe({
-      next: (data) => setOrganizations([...data.items]),
-    });
-  }, []);
-
-  return (
-    <main>
-      <h1>Control de pagos</h1>
-      <div>
-      <h1>Bienvenido {user?.username}</h1>
-      <ul>
-        {organizations.map((org) => (
-          <li key={org.id}>{org.name}</li>
-        ))}
-      </ul>
-      </div>
-      <div>
-      </div>
-
-      <button onClick={signOut}>Sign out</button>
-    </main>
-  );
+  return <RouterProvider router={router}/>
 }
 
 export default App;

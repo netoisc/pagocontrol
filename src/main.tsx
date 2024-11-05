@@ -1,4 +1,4 @@
-import { Authenticator, translations } from '@aws-amplify/ui-react';
+import { Authenticator, ThemeProvider, translations } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 import { Amplify } from "aws-amplify";
 import { I18n } from 'aws-amplify/utils';
@@ -7,7 +7,6 @@ import ReactDOM from "react-dom/client";
 import outputs from "../amplify_outputs.json";
 import App from "./App.tsx";
 import "./index.css";
-
 
 
 Amplify.configure(outputs);
@@ -29,8 +28,10 @@ I18n.putVocabularies({
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <Authenticator>
-      <App />
-    </Authenticator>
+    <ThemeProvider>
+      <Authenticator>
+        <App />
+      </Authenticator>
+    </ThemeProvider>
   </React.StrictMode>
 );
