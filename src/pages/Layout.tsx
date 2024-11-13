@@ -9,7 +9,7 @@ const Layout =() =>{
         <>
         <NavBar />
         <main className="main-content text-start">
-            <Container fluid className="container-margin-top">
+            <Container className="container-margin-top">
                 <Outlet />
             </Container>
         </main>
