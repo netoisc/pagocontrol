@@ -1,12 +1,15 @@
 import { Authenticator, ThemeProvider, translations } from '@aws-amplify/ui-react';
-import '@aws-amplify/ui-react/styles.css';
 import { Amplify } from "aws-amplify";
 import { I18n } from 'aws-amplify/utils';
+
+import '@aws-amplify/ui-react/styles.css';
+import "bootswatch/dist/flatly/bootstrap.min.css";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import outputs from "../amplify_outputs.json";
 import App from "./App.tsx";
 import "./index.css";
+
 
 
 Amplify.configure(outputs);

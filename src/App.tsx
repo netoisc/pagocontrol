@@ -2,7 +2,6 @@
 
 import { Authenticator } from '@aws-amplify/ui-react';
 import { createBrowserRouter, Route, RouterProvider, Routes } from 'react-router-dom';
-import "./App.css";
 import Home from './pages/Home';
 import Layout from './pages/Layout';
 
