@@ -2,6 +2,7 @@ import { useAuthenticator } from "@aws-amplify/ui-react";
 import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import Container from "react-bootstrap/Container";
+import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -24,7 +25,8 @@ const NavBar = () => {
     };
 
     return (
-        <Navbar bg="dark" variant="dark" fixed="top">
+        <>
+        <Navbar className="bg-primary" fixed="top" expand="lg">
             <Container fluid>
                 <Navbar.Brand as={Link} to="/">
                     Pagos Control
@@ -33,9 +35,13 @@ const NavBar = () => {
                 <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
                     {
                         isSignedIn && (
-                            <Button variant="dark" onClick={signOut}>
-                                Salir
-                            </Button>
+                            <Nav className="">
+                                <Nav.Link href="#home">Registrar pago</Nav.Link>
+                                <Nav.Link href="#link">Administrar</Nav.Link>
+                                <Nav.Link href="#" onClick={signOut}>Salir</Nav.Link>
+                            </Nav>
+
+
                         )
                     }
                     {
@@ -48,6 +54,7 @@ const NavBar = () => {
                 </Navbar.Collapse>
             </Container>
         </Navbar>
+        </>
     )
 
 }
