@@ -1,4 +1,5 @@
 import { useAuthenticator } from "@aws-amplify/ui-react";
+import "bootswatch/dist/flatly/bootstrap.min.css";
 import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import Container from "react-bootstrap/Container";
@@ -26,7 +27,7 @@ const NavBar = () => {
 
     return (
         <>
-        <Navbar className="bg-primary" fixed="top" expand="lg">
+        <Navbar className="bg-primary" data-bs-theme="dark" fixed="top" expand="lg">
             <Container fluid>
                 <Navbar.Brand as={Link} to="/">
                     Pagos Control
@@ -35,7 +36,7 @@ const NavBar = () => {
                 <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
                     {
                         isSignedIn && (
-                            <Nav className="">
+                            <Nav>
                                 <Nav.Link href="#home">Registrar pago</Nav.Link>
                                 <Nav.Link href="#link">Administrar</Nav.Link>
                                 <Nav.Link href="#" onClick={signOut}>Salir</Nav.Link>
