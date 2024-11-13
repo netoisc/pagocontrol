@@ -1,8 +1,11 @@
+import ListOrganizations from "../components/OrganizationList";
+
 function Home(){
 
     return (
         <div className="row">
-          <h1>Home page</h1>
+          <h1 className="h1">Mis organizaciones</h1>
+          <ListOrganizations />
         </div>
     )
 }
